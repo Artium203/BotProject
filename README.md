@@ -1,7 +1,7 @@
 # BotProject
 Must make the swing be connected with the bot when restarting the bot does the same or choosing with the combobox.
 
-Must make the api connected with the bot after know the choosing.
+Must make the api connected with the bot after knowing the choosing.
 
 Make a counter of users.
 
