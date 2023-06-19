@@ -21,7 +21,7 @@ public class Window extends JFrame implements ActionListener {
             resetButton.setText("Restart");
             resetButton.addActionListener(this);
             app=new App();
-            BotTel bot = new BotTel(app.getDefaultChoice1(),app.getChoice2(),app.getDefaultChoice3());
+            TelBot bot = new TelBot(app.getDefaultChoice1(),app.getChoice2(),app.getDefaultChoice3());
             TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
             api.registerBot(bot);
 

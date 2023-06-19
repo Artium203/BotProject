@@ -1,14 +1,12 @@
 package org.example;
 
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 public class App extends JPanel {
-    private BotTel bot;
+    private TelBot bot;
     private JComboBox choicesOfAPI1;
     private JComboBox choicesOfAPI2;
     private JComboBox choicesOfAPI3;
@@ -54,16 +52,28 @@ public class App extends JPanel {
 //            bot.setTextNo(defaultChoice2);
         });
         choicesOfAPI3.addActionListener(e ->{
-            if (choicesOfAPI3.getSelectedItem() == choicesOfAPI2.getSelectedItem() && choicesOfAPI3.getSelectedItem() != choicesOfAPI3.getItemAt(0) && choicesOfAPI2.getSelectedItem() != choicesOfAPI2.getItemAt(0)){
+            if (
+                    choicesOfAPI3.getSelectedItem() == choicesOfAPI2.getSelectedItem()
+                    &&
+                    choicesOfAPI3.getSelectedItem() != choicesOfAPI3.getItemAt(0)
+                    &&
+                    choicesOfAPI2.getSelectedItem() != choicesOfAPI2.getItemAt(0)
+            ){
                 choicesOfAPI2.removeItem(choicesOfAPI3.getSelectedItem());
                 choicesOfAPI3.removeItem(choicesOfAPI2.getSelectedItem());
             }
-            if (choicesOfAPI1.getSelectedItem() == choicesOfAPI3.getSelectedItem() && choicesOfAPI1.getSelectedItem() != choicesOfAPI1.getItemAt(0) && choicesOfAPI3.getSelectedItem() != choicesOfAPI3.getItemAt(0)){
+            if (
+                    choicesOfAPI1.getSelectedItem() == choicesOfAPI3.getSelectedItem()
+                            &&
+                    choicesOfAPI1.getSelectedItem() != choicesOfAPI1.getItemAt(0)
+                    && choicesOfAPI3.getSelectedItem() != choicesOfAPI3.getItemAt(0)
+            ){
                 choicesOfAPI1.removeItem(choicesOfAPI3.getSelectedItem());
                 choicesOfAPI3.removeItem(choicesOfAPI1.getSelectedItem());
             }
             defaultChoice3 = choicesOfAPI3.getSelectedItem().toString();
         });
+
         if (choicesOfAPI1.getSelectedItem() == choicesOfAPI2.getSelectedItem()){
             choicesOfAPI2.removeItem(choicesOfAPI1.getSelectedItem());
             choicesOfAPI1.removeItem(choicesOfAPI2.getSelectedItem());

@@ -11,22 +11,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BotTel extends TelegramLongPollingBot {
-    private Map<Long,Integer> phasesMap;
+public class TelBot extends TelegramLongPollingBot {
+    private Map <Long, Integer> phasesMap;
     private String choice1;
     private String choice2;
-
     private String choice3;
     private InlineKeyboardButton no;
     private static int count=0;
 
-    public BotTel(String choice1,String choice2,String choice3){
+    public TelBot(String choice1, String choice2, String choice3){
         this.phasesMap = new HashMap<>();
         this.choice1 = choice1;
         this.choice2 = choice2;
         this.choice3 = choice3;
 
     }
+
     @Override
     public String getBotUsername() {
         return "FeelBoredbot";
@@ -40,9 +40,11 @@ public class BotTel extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         long chatID;
-        if (update.hasCallbackQuery()){ // button was clicked
+        if (update.hasCallbackQuery()){
+            // button was clicked
             chatID = update.getCallbackQuery().getMessage().getChatId();
-        }else {// massage sent
+        }else {
+            // massage sent
             chatID = update.getMessage().getChatId();
         }
         Integer phase = this.phasesMap.get(chatID);
@@ -58,12 +60,11 @@ public class BotTel extends TelegramLongPollingBot {
             no.setText(choice2);
             no.setCallbackData("N");
 
-            List<InlineKeyboardButton>topRow = List.of(yes,no);
+            List<InlineKeyboardButton>topRow = List.of(yes, no);
 
             List<List<InlineKeyboardButton>> keyboard = List.of(topRow);
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             inlineKeyboardMarkup.setKeyboard(keyboard);
-
 
             sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
