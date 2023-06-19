@@ -14,10 +14,11 @@ public class App extends JPanel {
     private JComboBox choicesOfAPI3;
     private static String defaultChoice1 = "Jokes";
     private static String defaultChoice2 = "Cat-Facts";
-    private static String defaultChoice3 = "na";
-    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","na","ba","ha");
+    private static String defaultChoice3 = "Weather";
+    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Weather","Fixer","ha");
     private static int counter =0;
     public App(){
+        this.bot = new BotTel(defaultChoice1,defaultChoice2,defaultChoice3);
         this.add(selectAPI());
     }
 
@@ -40,6 +41,9 @@ public class App extends JPanel {
                 choicesOfAPI1.removeItem(choicesOfAPI3.getSelectedItem());
             }
             this.defaultChoice1 = choicesOfAPI1.getSelectedItem().toString();
+            if (this.defaultChoice2 != null){
+                bot.setTextNo(this.getDefaultChoice1());
+            }
         });
         choicesOfAPI2.addActionListener(e ->{
             if (choicesOfAPI1.getSelectedItem() == choicesOfAPI2.getSelectedItem() && choicesOfAPI1.getSelectedItem() != choicesOfAPI1.getItemAt(0) && choicesOfAPI2.getSelectedItem() != choicesOfAPI2.getItemAt(0)){
@@ -51,7 +55,10 @@ public class App extends JPanel {
                 choicesOfAPI1.removeItem(choicesOfAPI3.getSelectedItem());
             }
             defaultChoice2 = choicesOfAPI2.getSelectedItem().toString();
-//            bot.setTextNo(defaultChoice2);
+            if (this.defaultChoice2 != null){
+                bot.setTextNo(this.defaultChoice2);
+            }
+
         });
         choicesOfAPI3.addActionListener(e ->{
             if (choicesOfAPI3.getSelectedItem() == choicesOfAPI2.getSelectedItem() && choicesOfAPI3.getSelectedItem() != choicesOfAPI3.getItemAt(0) && choicesOfAPI2.getSelectedItem() != choicesOfAPI2.getItemAt(0)){
@@ -63,6 +70,9 @@ public class App extends JPanel {
                 choicesOfAPI3.removeItem(choicesOfAPI1.getSelectedItem());
             }
             defaultChoice3 = choicesOfAPI3.getSelectedItem().toString();
+            if (this.defaultChoice2 != null){
+                bot.setTextNo(this.defaultChoice3);
+            }
         });
         if (choicesOfAPI1.getSelectedItem() == choicesOfAPI2.getSelectedItem()){
             choicesOfAPI2.removeItem(choicesOfAPI1.getSelectedItem());

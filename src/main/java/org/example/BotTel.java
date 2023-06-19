@@ -17,10 +17,28 @@ public class BotTel extends TelegramLongPollingBot {
     private String choice2;
 
     private String choice3;
-    private InlineKeyboardButton no;
+    private String jokeAPI;
+    private String catFactsAPI;
+    private String weatherAPI;
+    private String fixerAPI;
+    private String haAPI;
+
+    private InlineKeyboardButton choiceButton2;
     private static int count=0;
 
-    public BotTel(String choice1,String choice2,String choice3){
+    public void setChoice1(String choice1) {
+        this.choice1 = choice1;
+    }
+
+    public void setChoice2(String choice2) {
+        this.choice2 = choice2;
+    }
+
+    public void setChoice3(String choice3) {
+        this.choice3 = choice3;
+    }
+
+    public BotTel(String choice1, String choice2, String choice3){
         this.phasesMap = new HashMap<>();
         this.choice1 = choice1;
         this.choice2 = choice2;
@@ -49,16 +67,20 @@ public class BotTel extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatID);
         if (phase == null){
-            sendMessage.setText("Do you?");
-            InlineKeyboardButton yes = new InlineKeyboardButton();
-            yes.setText(choice1);
-            yes.setCallbackData("Y");
+            sendMessage.setText("What content would you like to see?");
+            InlineKeyboardButton choiceButton1 = new InlineKeyboardButton();
+            choiceButton1.setText(choice1);
+            choiceButton1.setCallbackData(choice1);
 
-            no = new InlineKeyboardButton();
-            no.setText(choice2);
-            no.setCallbackData("N");
+            choiceButton2 = new InlineKeyboardButton();
+            choiceButton2.setText(choice2);
+            choiceButton2.setCallbackData(choice2);
 
-            List<InlineKeyboardButton>topRow = List.of(yes,no);
+            InlineKeyboardButton choiceButton3 = new InlineKeyboardButton();
+            choiceButton3.setText(choice3);
+            choiceButton3.setCallbackData(choice3);
+
+            List<InlineKeyboardButton>topRow = List.of(choiceButton1, choiceButton2,choiceButton3);
 
             List<List<InlineKeyboardButton>> keyboard = List.of(topRow);
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -72,8 +94,25 @@ public class BotTel extends TelegramLongPollingBot {
         }else {
             if (phase == 1){
                 String callbackData = update.getCallbackQuery().getData();
-                if (callbackData.equals("Y")){
-                    sendMessage.setText("What is your E");
+                if (callbackData.equals(choice1)){
+                    switch (choice1){
+                        case "Jokes":
+                            System.out.println("hh");
+                            break;
+                        case "Cat-Facts":
+                            System.out.println("mr");
+                            break;
+                        case "ba":
+                            System.out.println("sos");
+                            break;
+                        case "Fixer":
+                            System.out.println("bla");
+                            break;
+                        case "Weather":
+                            System.out.println("cold");
+                            break;
+                    }
+                    System.out.println("If you want to stop type: /exit");
                 }else {
                     sendMessage.setText("Have a bless");
                 }
@@ -102,6 +141,7 @@ public class BotTel extends TelegramLongPollingBot {
         count--;
     }
     public void setTextNo(String name) {
-        no.setText(name);
+        choiceButton2 = new InlineKeyboardButton();
+        choiceButton2.setText(name);
     }
 }
