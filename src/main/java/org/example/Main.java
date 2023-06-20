@@ -9,6 +9,7 @@ public class Main {
         Window window = new Window();
         window.opened();
 
+
 //        try {
 //            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
 //            telegramBotsApi.registerBot(new BotTel());

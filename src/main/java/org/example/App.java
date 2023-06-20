@@ -1,5 +1,6 @@
 package org.example;
 
+import com.mashape.unirest.http.HttpResponse;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import javax.swing.*;
@@ -9,13 +10,14 @@ import java.util.List;
 
 public class App extends JPanel {
     private BotTel bot;
+    private HttpResponse<String> joke;
     private JComboBox choicesOfAPI1;
     private JComboBox choicesOfAPI2;
     private JComboBox choicesOfAPI3;
     private static String defaultChoice1 = "Jokes";
     private static String defaultChoice2 = "Cat-Facts";
     private static String defaultChoice3 = "Weather";
-    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Weather","Fixer","ha");
+    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Weather","Fixer","NASA");
     private static int counter =0;
     public App(){
         this.bot = new BotTel(defaultChoice1,defaultChoice2,defaultChoice3);
