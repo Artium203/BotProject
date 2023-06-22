@@ -14,10 +14,10 @@ public class App extends JPanel {
     private JComboBox choicesOfAPI1;
     private JComboBox choicesOfAPI2;
     private JComboBox choicesOfAPI3;
-    private static String defaultChoice1 = "Jokes";
+    private static String defaultChoice1 = "Countries";
     private static String defaultChoice2 = "Cat-Facts";
-    private static String defaultChoice3 = "Weather";
-    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Weather","Fixer","NASA");
+    private static String defaultChoice3 = "Number";
+    private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Number","Countries","Quotes");
     private static int counter =0;
     public App(){
         this.bot = new BotTel(defaultChoice1,defaultChoice2,defaultChoice3);

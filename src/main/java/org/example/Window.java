@@ -38,7 +38,7 @@ public class Window extends JFrame implements ActionListener {
                 bot.setChoice1(a);
                 bot.setChoice2(b);
                 bot.setChoice3(c);
-                System.out.println(app.getChoice2());
+                System.out.println(app.getDefaultChoice1());
             });
             api.registerBot(bot);
 
