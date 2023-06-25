@@ -14,7 +14,7 @@ public class App extends JPanel {
     private JComboBox choicesOfAPI1;
     private JComboBox choicesOfAPI2;
     private JComboBox choicesOfAPI3;
-    private static String defaultChoice1 = "Countries";
+    private static String defaultChoice1 = "Jokes";
     private static String defaultChoice2 = "Cat-Facts";
     private static String defaultChoice3 = "Number";
     private final List<String> API = Arrays.asList("Jokes","Cat-Facts","Number","Countries","Quotes");
@@ -43,9 +43,7 @@ public class App extends JPanel {
                 choicesOfAPI1.removeItem(choicesOfAPI3.getSelectedItem());
             }
             this.defaultChoice1 = choicesOfAPI1.getSelectedItem().toString();
-            if (this.defaultChoice2 != null){
-                bot.setTextNo(this.getDefaultChoice1());
-            }
+
         });
         choicesOfAPI2.addActionListener(e ->{
             if (choicesOfAPI1.getSelectedItem() == choicesOfAPI2.getSelectedItem() && choicesOfAPI1.getSelectedItem() != choicesOfAPI1.getItemAt(0) && choicesOfAPI2.getSelectedItem() != choicesOfAPI2.getItemAt(0)){

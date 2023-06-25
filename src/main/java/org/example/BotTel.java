@@ -19,18 +19,14 @@ import java.util.Map;
 
 public class BotTel extends TelegramLongPollingBot {
     private Map<Long,Integer> phasesMap;
-
     private String choice1;
     private String choice2;
-
     private String choice3;
+    private int counter;
     private String jokeAPI1;
     private String jokeAPI2;
     private Apis apiInfo;
 
-    public void setJokeAPI2(String jokeAPI2) {
-        this.jokeAPI2 = jokeAPI2;
-    }
 
     private String catFactsAPI;
     private String countriesAPI;
@@ -39,24 +35,9 @@ public class BotTel extends TelegramLongPollingBot {
         this.jokeAPI1 = jokeAPI1;
     }
 
-    public void setCatFactsAPI(String catFactsAPI) {
-        this.catFactsAPI = catFactsAPI;
-    }
-
-    public void setCountriesAPI(String countriesAPI) {
-        this.countriesAPI = countriesAPI;
-    }
-
-    public void setNumberFactsAPI(String numberFactsAPI) {
-        this.numberFactsAPI = numberFactsAPI;
-    }
-
-    public void setQuoteAPI(String quoteAPI) {
-        this.quoteAPI = quoteAPI;
-    }
-
     private String numberFactsAPI;
-    private String quoteAPI;
+    private String quoteAPI1;
+    private String quoteAPI2;
 
     private InlineKeyboardButton choiceButton2;
     private static int count=0;
@@ -82,12 +63,14 @@ public class BotTel extends TelegramLongPollingBot {
             HttpResponse<String> jokes = Unirest.get("https://official-joke-api.appspot.com/jokes/random").asString();
             ObjectMapper objectMapper = new ObjectMapper();
             JokeFilter jokeFilter= objectMapper.readValue(jokes.getBody(), JokeFilter.class);
+            HttpResponse<String> cats = Unirest.get("https://catfact.ninja/fact?max_length=200").asString();
             HttpResponse<String> numbers = Unirest.get("http://numbersapi.com/random/trivia").asString();
-            HttpResponse<String> quotes= Unirest.get("https://api.quotable.io/quotes/random").asString();
+            HttpResponse<String> quotes= Unirest.get("https://api.quotable.io/random").asString();
             QuotesFilter quotesFilter = objectMapper.readValue(quotes.getBody(),QuotesFilter.class);
-            for (String quote: quotesFilter.getContent()){
-                this.quoteAPI = quote;
-            }
+            CatFactsFilter catFactsFilter = objectMapper.readValue(cats.getBody(),CatFactsFilter.class);
+            this.catFactsAPI = catFactsFilter.getFact();
+            this.quoteAPI1 = quotesFilter.getContent();
+            this.quoteAPI2 = quotesFilter.getAuthor();
             this.numberFactsAPI = numbers.getBody();
             this.jokeAPI1 = jokeFilter.getSetup();
             this.jokeAPI2 = jokeFilter.getPunchline();
@@ -114,7 +97,8 @@ public class BotTel extends TelegramLongPollingBot {
         long chatID;
         if (update.hasCallbackQuery()){ // button was clicked
             chatID = update.getCallbackQuery().getMessage().getChatId();
-        }else {// massage sent
+        }
+        else {// massage sent
             chatID = update.getMessage().getChatId();
         }
         Integer phase = this.phasesMap.get(chatID);
@@ -124,6 +108,7 @@ public class BotTel extends TelegramLongPollingBot {
         sendMessage1.setChatId(chatID);
 
         if (phase == null){
+            count++;
             sendMessage.setText("What content would you like to see?");
             InlineKeyboardButton choiceButton1 = new InlineKeyboardButton();
             choiceButton1.setText(choice1);
@@ -158,7 +143,8 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage1.setText(this.jokeAPI2);
                         this.phasesMap.put(chatID,3);
                     } else if (choice1 == "Cat-Facts") {
-                        
+                        sendMessage.setText(this.catFactsAPI);
+                        this.phasesMap.put(chatID,3);
                     } else if (choice1 == "Countries") {
                         sendMessage.setText("Which country? (In code like ISR = Israel)");
                         this.phasesMap.put(chatID,2);
@@ -166,7 +152,9 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage.setText(this.numberFactsAPI);
                         this.phasesMap.put(chatID,3);
                     } else if (choice1 == "Quotes") {
-                        sendMessage.setText(this.quoteAPI);
+                        sendMessage.setText(this.quoteAPI1);
+                        sendMessage1.setText("By "+this.quoteAPI2);
+                        this.phasesMap.put(chatID,3);
                     }
                 }else if (callbackData.equals(choice2)){
                     if (choice2 == "Jokes"){
@@ -174,7 +162,8 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage1.setText(this.jokeAPI2);
                         this.phasesMap.put(chatID,3);
                     } else if (choice2 == "Cat-Facts") {
-
+                        sendMessage.setText(this.catFactsAPI);
+                        this.phasesMap.put(chatID,3);
                     } else if (choice2 == "Countries") {
                         sendMessage.setText("Which country? (In code like ISR = Israel)");
                         this.phasesMap.put(chatID,2);
@@ -182,7 +171,9 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage.setText(this.numberFactsAPI);
                         this.phasesMap.put(chatID,3);
                     } else if (choice2 == "Quotes") {
-
+                        sendMessage.setText(this.quoteAPI1);
+                        sendMessage1.setText("By "+this.quoteAPI2);
+                        this.phasesMap.put(chatID,3);
                     }
                 }else {
                     if (choice3 == "Jokes"){
@@ -190,7 +181,8 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage1.setText(this.jokeAPI2);
                         this.phasesMap.put(chatID,3);
                     } else if (choice3 == "Cat-Facts") {
-
+                        sendMessage.setText(this.catFactsAPI);
+                        this.phasesMap.put(chatID,3);
                     } else if (choice3 == "Countries") {
                         sendMessage.setText("Which country? (In code like ISR = Israel)");
                         this.phasesMap.put(chatID,2);
@@ -198,18 +190,31 @@ public class BotTel extends TelegramLongPollingBot {
                         sendMessage.setText(this.numberFactsAPI);
                         this.phasesMap.put(chatID,3);
                     } else if (choice3 == "Quotes") {
-
+                        sendMessage.setText(this.quoteAPI1);
+                        sendMessage1.setText("By "+this.quoteAPI2);
+                        this.phasesMap.put(chatID,3);
                     }
                 }
-//                String message = update.getMessage().getText();
-//                if (message.equals("No")){
-//                    sendMessage.setText("Have a bless");
-//                }else {
-//                    sendMessage.setText("What is your E");
-//                }
             }
             if (phase ==3){
-                
+                sendMessage.setText("Would you like to continue?");
+                InlineKeyboardButton yes = new InlineKeyboardButton();
+                yes.setText("Yes");
+                yes.setCallbackData("Yes");
+                InlineKeyboardButton no = new InlineKeyboardButton();
+                no.setText("No");
+                no.setCallbackData("No");
+
+                List<InlineKeyboardButton>topRow = List.of(yes,no);
+
+                List<List<InlineKeyboardButton>> keyboard = List.of(topRow);
+                InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+                inlineKeyboardMarkup.setKeyboard(keyboard);
+
+
+                sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+                sendMessage1.setReplyMarkup(inlineKeyboardMarkup);
+                this.phasesMap.put(chatID,4);
             }
             if (phase == 2){
                 try {
@@ -227,6 +232,7 @@ public class BotTel extends TelegramLongPollingBot {
                             countries = Unirest.get("https://restcountries.com/v2/alpha/"+neighbor).asString();
                             countrysFilter = objectMapper.readValue(countries.getBody(),CountrysFilter.class);
                             sendMessage1.setText("The neighbors are:"+countrysFilter.getName()+" and the population of the neighbors:"+countrysFilter.getPopulation());
+                            this.phasesMap.put(chatID,3);
                         }
                     }
                 } catch (UnirestException e) {
@@ -237,8 +243,24 @@ public class BotTel extends TelegramLongPollingBot {
                     throw new RuntimeException(e);
                 }
             }
-            phase++;
-            this.phasesMap.put(chatID,phase);
+            if (phase == 4){
+                String callbackData = update.getCallbackQuery().getData();
+                if (callbackData.equals("Yes")){
+                    this.phasesMap.put(chatID,null);
+                }else {
+                    sendMessage.setText("Good bye, we will be ready for your back.");
+                    this.phasesMap.put(chatID,5);
+                    count--;
+                }
+            }
+            if (phase==5){
+                if (update.getMessage().getText().equals("/start")){
+                    this.phasesMap.put(chatID,null);
+                }
+            }
+
+//            phase++;
+//            this.phasesMap.put(chatID,phase);
         }
         send(sendMessage);
         send(sendMessage1);

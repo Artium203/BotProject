@@ -1,17 +1,19 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuotesFilter {
-    private List<String> content;
+    private String content;
 
-    private List<String> author;
+    private String author;
 
-    public List<String> getContent() {
+    public String getContent() {
         return content;
     }
 
-    public List<String> getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
