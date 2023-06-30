@@ -4,22 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JokeFilter {
+    private String type;
     private String setup;
-    private String punchline;
-
+    private String delivery;
+    private String joke;
+    public String getType() {
+        return type;
+    }
+    public String getJoke() {
+        return joke;
+    }
     public String getSetup() {
         return setup;
     }
-
-    public void setSetup(String setup) {
-        this.setup = setup;
-    }
-
-    public String getPunchline() {
-        return punchline;
-    }
-
-    public void setPunchline(String punchline) {
-        this.punchline = punchline;
+    public String getDelivery() {
+        return delivery;
     }
 }
