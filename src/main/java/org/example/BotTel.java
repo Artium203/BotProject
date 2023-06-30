@@ -55,6 +55,7 @@ public class BotTel extends TelegramLongPollingBot {
         String userMessage;
         Long chatID;
         String userFirstName;
+
         if (update.hasCallbackQuery()) {
             chatID = update.getCallbackQuery().getMessage().getChatId();
             userMessage = update.getCallbackQuery().getData().toString();
@@ -130,6 +131,7 @@ public class BotTel extends TelegramLongPollingBot {
                 catAPIRun();
                 updateAPIRequestCounter();
                 sleep();
+
                 sendMessage.setText(catApi);
                 this.APINameUseCount.put("CatsAPI", APINameUseCount.get("CatsAPI") + 1);
                 this.userID.put(chatID, 0);
@@ -140,6 +142,7 @@ public class BotTel extends TelegramLongPollingBot {
                 jokeAPIRun("");
                 updateAPIRequestCounter();
                 sleep();
+
                 sendMessage.setText(jokeAPIT);
                 this.APINameUseCount.put("JokesAPI", APINameUseCount.get("JokesAPI") + 1);
                 this.userID.put(chatID, 0);
@@ -147,6 +150,7 @@ public class BotTel extends TelegramLongPollingBot {
             if (Objects.equals(message, "numbers")){
                 window.botInfo.setNumbersCount(window.botInfo.getNumbersCount() + 1);
                 window.botInfo.setChartConfig();
+
                 sendMessage.setText("Pick a number.");
                 this.userID.put(chatID, 2);
             }
@@ -156,6 +160,7 @@ public class BotTel extends TelegramLongPollingBot {
                 quotesAPIRun();
                 updateAPIRequestCounter();
                 sleep();
+
                 sendMessage.setText(quotesAPI);
                 this.APINameUseCount.put("QuotesAPI", APINameUseCount.get("QuotesAPI") + 1);
                 this.userID.put(chatID, 0);
@@ -171,6 +176,7 @@ public class BotTel extends TelegramLongPollingBot {
             numbersAPIRun(update.getMessage().getText());
             updateAPIRequestCounter();
             sleep();
+
             sendMessage.setText(numbersAPI);
             this.APINameUseCount.put("NumbersAPI", APINameUseCount.get("NumbersAPI") + 1);
             this.userID.put(chatID, 0);
@@ -178,6 +184,7 @@ public class BotTel extends TelegramLongPollingBot {
             countriesAPIRun(update.getMessage().getText());
             updateAPIRequestCounter();
             sleep();
+
             sendMessage.setText("You chose "+ update.getMessage().getText() +". Now choose your desired information:");
             sendMessage.setText("The population: "+countryAPIPopulation+"\n The languages spoken: "+ languages.toString()+
                     "\nThe subregion is: "+countryAPI);
@@ -240,24 +247,6 @@ public class BotTel extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-    public void catAPIRun() {
-        new Thread(() -> {
-            try {
-                HttpResponse<String> response = Unirest.get("https://catfact.ninja/fact?max_length=140").asString();
-                ObjectMapper objectMapper = new ObjectMapper();
-                CatFactsFilter catModel = objectMapper.readValue(response.getBody(), CatFactsFilter.class);
-                if (catModel != null) {
-                    this.catApi = catModel.getFact();
-                }
-            } catch (Exception e){
-                try {
-                    throw new Exception("ERROR");
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }).start();
-    }
     public void jokeAPIRun(String kind){
         new Thread(() -> {
             try {
@@ -269,6 +258,24 @@ public class BotTel extends TelegramLongPollingBot {
                 }
                 else {
                     this.jokeAPIT = jokeModel.getJoke();
+                }
+            } catch (Exception e){
+                try {
+                    throw new Exception("ERROR");
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }).start();
+    }
+    public void catAPIRun() {
+        new Thread(() -> {
+            try {
+                HttpResponse<String> response = Unirest.get("https://catfact.ninja/fact?max_length=140").asString();
+                ObjectMapper objectMapper = new ObjectMapper();
+                CatFactsFilter catModel = objectMapper.readValue(response.getBody(), CatFactsFilter.class);
+                if (catModel != null) {
+                    this.catApi = catModel.getFact();
                 }
             } catch (Exception e){
                 try {

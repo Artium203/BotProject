@@ -63,6 +63,7 @@ public class App extends JPanel implements ActionListener {
         this.savedSelections.put("Cat-Facts", 1);
         this.savedSelections.put("Countries", 0);
         this.savedSelections.put("Quotes", 0);
+
         this.setLayout(null);
         this.setSize(800,600);
         this.setVisible(false);
